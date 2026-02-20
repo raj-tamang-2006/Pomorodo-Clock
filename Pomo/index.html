@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Pomodoro Clock</h1>
+        <div class="inp">
+            Focus(min):<input type="number" value="1" min="1" id="Ftime">
+            Break(min):<input type="number" value="1" min="1" id="Btime">
+            Cycles:<input type="number" value="1" min="1" id="cycle">
+        </div>        
+        <div id="mode">Ready</div>
+        <div id="timer">00:00</div>
+
+        <button onclick="startTimer()">Start</button>
+        <button onclick="pauseTimer()">Pause</button>
+        <button onclick="resetTimer()">Reset</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
