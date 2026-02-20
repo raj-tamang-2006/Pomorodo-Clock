@@ -4,6 +4,9 @@ let isRunning = false;
 let isFocus = true;
 let currentCycle = 0;
 
+const focusSound = document.getElementById("focusSound");
+const breakSound = document.getElementById("breakSound");
+
 function startTimer() {
     if (isRunning) return;
 
@@ -15,9 +18,16 @@ function startTimer() {
         if (isFocus) {
             timeLeft = focusTime;
             document.getElementById("mode").textContent = "Focus Time";
+
+            focusSound.currentTime = 0;
+            focusSound.play();
+
         } else {
             timeLeft = breakTime;
             document.getElementById("mode").textContent = "Break Time";
+
+            breakSound.currentTime = 0;
+            breakSound.play();
         }
     }
 
@@ -33,11 +43,14 @@ function startTimer() {
 
             if (isFocus) {
                 isFocus = false;
+                timeLeft = 0;
                 startTimer(); // Start break
             } else {
                 currentCycle++;
+
                 if (currentCycle < totalCycles) {
                     isFocus = true;
+                    timeLeft = 0;
                     startTimer(); // Start next focus
                 } else {
                     document.getElementById("mode").textContent = "Completed 🎉";
@@ -45,6 +58,8 @@ function startTimer() {
             }
         }
     }, 1000);
+
+    updateDisplay();
 }
 
 function pauseTimer() {
@@ -54,6 +69,7 @@ function pauseTimer() {
 
 function resetTimer() {
     clearInterval(timer);
+
     isRunning = false;
     isFocus = true;
     currentCycle = 0;
