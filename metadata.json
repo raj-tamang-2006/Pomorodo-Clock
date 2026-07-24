@@ -1,0 +1,6 @@
+{
+  "name": "Pomodoro Clock",
+  "description": "A minimalist Pomodoro clock with sound effects for start, pause, and completion alerts to maintain focus.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
