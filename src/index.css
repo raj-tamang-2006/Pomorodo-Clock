@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+@layer utilities {
+  .atmosphere-bg {
+    background: 
+      radial-gradient(circle at 50% 45%, #151522 0%, #050505 75%),
+      radial-gradient(circle at 15% 15%, rgba(66, 135, 245, 0.12) 0%, transparent 45%),
+      radial-gradient(circle at 85% 85%, rgba(0, 255, 171, 0.08) 0%, transparent 45%);
+  }
+
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 24px;
+  }
+
+  .glass-panel-hover {
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .glass-panel-hover:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.12);
+  }
+
+  .timer-glow-emerald {
+    text-shadow: 0 0 45px rgba(0, 255, 171, 0.45);
+  }
+
+  .timer-glow-amber {
+    text-shadow: 0 0 45px rgba(245, 158, 11, 0.45);
+  }
+
+  .timer-glow-sky {
+    text-shadow: 0 0 45px rgba(56, 189, 248, 0.45);
+  }
+
+  .button-active-emerald {
+    background: rgba(0, 255, 171, 0.12);
+    border: 1px solid rgba(0, 255, 171, 0.35);
+    color: #00FFAB;
+    box-shadow: 0 0 20px rgba(0, 255, 171, 0.15);
+  }
+}

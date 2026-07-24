@@ -1,28 +1,16 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="container">
-        <h1>Pomodoro Clock</h1>
-        <div class="inp">
-            Focus(minutes):<input type="number" value="1" min="1" id="Ftime">
-            Break(minutes):<input type="number" value="1" min="1" id="Btime">
-            Cycles:<input type="number" value="1" min="1" id="cycle">
-        </div>        
-        <div id="mode">Ready</div>
-        <div id="timer">00:00</div>
-
-        <button onclick="startTimer()">Start</button>
-        <button onclick="pauseTimer()">Pause</button>
-        <button onclick="resetTimer()">Reset</button>
-    </div>
-    <audio id="focusSound" src="Sound1.mp3" preload="auto"></audio>
-    <audio id="breakSound" src="Sound2.mp3" preload="auto"></audio>
-    <script src="script.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pomodoro Clock</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-stone-900 text-stone-100 font-sans antialiased selection:bg-amber-500/30 selection:text-amber-200">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
+
