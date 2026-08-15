@@ -2,6 +2,20 @@
 
 A minimal, customizable Pomodoro timer built with vanilla HTML, CSS, and JavaScript. No frameworks, no build step, no external dependencies — sound effects are generated in-browser with the Web Audio API.
 
+## 🌐 Live Demo
+
+🔗 **Try the application here:**
+
+**https://pomodoro-clock-raj.vercel.app/**
+
+> Experience the app directly in your browser—no installation required.
+
+## 📸 Preview
+
+![P-Clock](screenshots/preview1.png)
+![P-Clock](screenshots/preview2.png)
+
+
 ## Features
 
 - **Three session modes** — Focus, Short Break, Long Break — each with independently configurable durations
@@ -39,25 +53,6 @@ A minimal, customizable Pomodoro timer built with vanilla HTML, CSS, and JavaScr
   <script src="script.js"></script>
 </body>
 ```
-
-## Getting started
-
-No install or build step required.
-
-1. Make sure `index.html`, `style.css`, and `script.js` are in the same folder.
-2. Open `index.html` directly in a browser, **or** serve the folder locally:
-
-   ```bash
-   # Python
-   python3 -m http.server 8000
-
-   # Node (with npx)
-   npx serve .
-   ```
-3. Visit `http://localhost:8000` (or whichever port your server prints).
-
-Sound requires a user gesture to unlock the browser's audio context — tapping **Start** the first time is enough.
-
 ## Using the timer
 
 | Control | What it does |
