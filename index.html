@@ -1,16 +1,149 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pomodoro Clock</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-  </head>
-  <body class="bg-stone-900 text-stone-100 font-sans antialiased selection:bg-amber-500/30 selection:text-amber-200">
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+<title>Pomodoro Timer</title>
+</head>
+<body>
 
+<div class="app">
+  <div class="topbar">
+    <div class="eyebrow"><span class="dot" id="pulseDot"></span><span id="eyebrowText">Ready when you are</span></div>
+    <button class="icon-btn" id="settingsBtn" aria-label="Open settings">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+    </button>
+  </div>
+
+  <h1>Pomodoro Timer</h1>
+
+  <div class="modes" role="tablist" aria-label="Timer mode">
+    <button class="active" data-mode="focus" role="tab" aria-selected="true">Focus</button>
+    <button data-mode="short" role="tab" aria-selected="false">Short Break</button>
+    <button data-mode="long" role="tab" aria-selected="false">Long Break</button>
+  </div>
+
+  <div class="dial-wrap">
+    <svg class="dial" viewBox="0 0 280 280">
+      <circle class="ring-track" cx="140" cy="140" r="120"></circle>
+      <circle class="ring-progress" id="ringProgress" cx="140" cy="140" r="120"
+              stroke-dasharray="754" stroke-dashoffset="0"></circle>
+    </svg>
+    <div class="dial-center">
+      <div class="time" id="timeDisplay">25:00</div>
+      <div class="status-label" id="statusLabel">Ready</div>
+    </div>
+  </div>
+
+  <div class="sessions" id="sessionDots" aria-label="Completed focus sessions this cycle"></div>
+
+  <div class="controls">
+    <button class="btn ghost" id="resetBtn" aria-label="Reset timer">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
+      Reset
+    </button>
+    <button class="btn primary" id="startPauseBtn">
+      <svg id="startIcon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+      <svg id="pauseIcon" viewBox="0 0 24 24" fill="currentColor" style="display:none"><rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/></svg>
+      <span id="startPauseLabel">Start</span>
+    </button>
+    <button class="btn ghost" id="skipBtn" aria-label="Skip to next session">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4l10 8-10 8V4z"/><path d="M19 5v14"/></svg>
+      Skip
+    </button>
+  </div>
+
+  <div class="footnote" id="footnoteText">
+    4 focus sessions = 1 cycle, then a long break.<br>
+    Tap the gear icon to customize durations and sound.
+  </div>
+</div>
+
+<!-- Settings panel -->
+<div class="overlay" id="overlay">
+  <div class="panel" role="dialog" aria-modal="true" aria-label="Timer settings">
+    <div class="panel-head">
+      <h2>Customize</h2>
+      <button class="icon-btn" id="closeSettings" aria-label="Close settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <div class="field-group">
+      <div class="field-label">Durations (minutes)</div>
+      <div class="duration-row">
+        <div class="duration-field">
+          <input type="number" id="focusInput" min="1" max="180" value="25" inputmode="numeric">
+          <label for="focusInput">Focus</label>
+        </div>
+        <div class="duration-field">
+          <input type="number" id="shortInput" min="1" max="60" value="5" inputmode="numeric">
+          <label for="shortInput">Short</label>
+        </div>
+        <div class="duration-field">
+          <input type="number" id="longInput" min="1" max="90" value="15" inputmode="numeric">
+          <label for="longInput">Long</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="stepper-row">
+      <span class="stepper-label">Focus sessions before long break</span>
+      <div class="stepper">
+        <button type="button" id="sessionsMinus" aria-label="Decrease">−</button>
+        <span id="sessionsValue">4</span>
+        <button type="button" id="sessionsPlus" aria-label="Increase">+</button>
+      </div>
+    </div>
+
+    <div class="toggle-row">
+      <div class="toggle-text">
+        <span class="toggle-title">Auto-start next session</span>
+        <span class="toggle-sub">Skip the manual tap after each timer</span>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="autoStartToggle">
+        <span class="track"></span>
+      </label>
+    </div>
+
+    <div class="toggle-row">
+      <div class="toggle-text">
+        <span class="toggle-title">Sound effects</span>
+        <span class="toggle-sub">Start, pause &amp; completion chimes</span>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="soundToggleSwitch" checked>
+        <span class="track"></span>
+      </label>
+    </div>
+
+    <div class="volume-row">
+      <div class="row-top">
+        <span class="field-label">Volume</span>
+        <span class="field-label" id="volumeValue">70%</span>
+      </div>
+      <input type="range" id="volumeSlider" min="0" max="100" value="70">
+    </div>
+
+    <div class="field-group">
+      <div class="field-label">Chime style</div>
+      <div class="sound-picker">
+        <button type="button" class="active" data-tone="chime">Chime</button>
+        <button type="button" data-tone="bell">Bell</button>
+        <button type="button" data-tone="beep">Beep</button>
+      </div>
+    </div>
+
+    <div class="panel-actions">
+      <button class="btn ghost" id="restoreDefaults">Restore Defaults</button>
+      <button class="btn primary" id="applySettings">Apply</button>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"> </script>
+
+</body>
+</html> 
